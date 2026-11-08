@@ -52,10 +52,10 @@ const client = new Client({
     ]
 });
 
-// Configuration variables updated with your credentials
-const TOKEN = 'MTU2OTA0MjY4NjA5MzE2ODY2MA.GieEhH.3VDuq_aeJqRJMDF3CToUOA8utjiQIQj_BtkodY';
-const CLIENT_ID = '1569042686093168660';
-const STAFF_CHANNEL_ID = '1569044168876232865';
+// Configuration variables using Environment Variables
+const TOKEN = process.env.DISCORD_TOKEN;
+const CLIENT_ID = process.env.CLIENT_ID;
+const STAFF_CHANNEL_ID = process.env.STAFF_CHANNEL_ID;
 
 // Register Slash Command
 const commands = [
@@ -255,7 +255,6 @@ client.on('interactionCreate', async interaction => {
 
             const db = loadDatabase();
             if (db.registrations[targetUserId]) {
-                // Remove from registered database so they can re-register if needed, or keep status as rejected
                 delete db.registrations[targetUserId];
                 saveDatabase(db);
             }
@@ -279,7 +278,7 @@ client.on('interactionCreate', async interaction => {
 
             // Update original staff message
             const disabledRow = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
+                newButtonBuilder = new ButtonBuilder()
                     .setCustomId('rejected_disabled')
                     .setLabel('تم الرفض ❌')
                     .setStyle(ButtonStyle.Danger)
